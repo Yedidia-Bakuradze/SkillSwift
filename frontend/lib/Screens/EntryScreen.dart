@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/Components/FormButton.dart';
+import 'package:frontend/Screens/LoginScreen.dart';
+import 'package:frontend/Screens/RegisterScreen.dart';
 
 class EntryScreen extends StatelessWidget {
   const EntryScreen({super.key});
@@ -15,6 +17,7 @@ class EntryScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
+            //The top (Header) part
             SizedBox(
               height: screenHeight * 0.2,
               child: Center(
@@ -24,16 +27,31 @@ class EntryScreen extends StatelessWidget {
                 ),
               ),
             ),
+            //Middle
             SizedBox(
               height: screenHeight * 0.55,
             ),
+
+            //The bottom (Footers) part including the action buttons
             SizedBox(
               height: screenHeight * 0.25,
               child: Center(
                 child: Column(
                   children: [
-                    FormButton(message: "Login"),
-                    FormButton(message: "Sign up"),
+                    FormButton(
+                      message: "Sign Up",
+                      navigateFunc: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (ctx) => LoginScreen()),
+                      ),
+                    ),
+                    FormButton(
+                      message: "Login",
+                      navigateFunc: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (ctx) => RegisterScreen()),
+                      ),
+                    ),
                   ],
                 ),
               ),
