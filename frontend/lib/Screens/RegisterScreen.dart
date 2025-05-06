@@ -168,8 +168,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // The submit and login buttons
                 SizedBox(
-                  height: screenHeight * 0.1,
+                  height: screenHeight * 0.2,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       ElevatedButton(
@@ -189,6 +190,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => LoginScreen(),
+                          ),
+                        ),
+                        child: Text(
+                          "Already have an account? Click to Login",
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 )
