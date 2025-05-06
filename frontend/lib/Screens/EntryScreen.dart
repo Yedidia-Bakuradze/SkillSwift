@@ -27,6 +27,7 @@ class EntryScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             //Middle
             SizedBox(
               height: screenHeight * 0.55,
@@ -42,14 +43,14 @@ class EntryScreen extends StatelessWidget {
                       message: "Sign Up",
                       navigateFunc: () => Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (ctx) => LoginScreen()),
+                        MaterialPageRoute(builder: (ctx) => RegisterScreen()),
                       ),
                     ),
                     FormButton(
                       message: "Login",
                       navigateFunc: () => Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (ctx) => RegisterScreen()),
+                        MaterialPageRoute(builder: (ctx) => LoginScreen()),
                       ),
                     ),
                   ],
