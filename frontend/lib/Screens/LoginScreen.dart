@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/Components/RoundedTextField.dart';
-import 'package:frontend/Screens/HomeScreen.dart';
+import 'package:frontend/Screens/MainLayout.dart';
 import 'package:frontend/Screens/RegisterScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!email.isEmpty && !password.isEmpty) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => MainLayout(),
           ),
         );
       }

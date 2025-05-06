@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/Components/FormButton.dart';
 import 'package:frontend/Components/RoundedTextField.dart';
-import 'package:frontend/Screens/HomeScreen.dart';
+import 'package:frontend/Screens/MainLayout.dart';
 import 'package:frontend/Screens/LoginScreen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -98,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         //TODO: make a POST request to the server and create a new instance of the user
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => MainLayout(),
           ),
         );
       }
