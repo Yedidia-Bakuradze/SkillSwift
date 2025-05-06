@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/Components/FormButton.dart';
 import 'package:frontend/Components/RoundedTextField.dart';
+import 'package:frontend/Screens/HomeScreen.dart';
+import 'package:frontend/Screens/LoginScreen.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   // Text Controllers
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -10,26 +19,86 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
+  String? nameErrorMsg;
+  String? emailErrorMsg;
+  String? passwordErrorMsg;
+  String? confirmPasswordErrorMsg;
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
 
-    // ignore: non_constant_identifier_names
+    @override
+    void initState() {
+      super.initState();
+      nameErrorMsg = null;
+      emailErrorMsg = null;
+      passwordErrorMsg = null;
+      confirmPasswordErrorMsg = null;
+    }
+
+    @override
+    void dispose() {
+      nameController.dispose();
+      emailController.dispose();
+      passwordController.dispose();
+      confirmPasswordController.dispose();
+      super.dispose();
+    }
+
+    // Verifies the provided feilds before registering
     void VerifySignupValues() {
       String name = nameController.text;
       String email = emailController.text;
       String password = passwordController.text;
       String confirmPassword = confirmPasswordController.text;
 
-      // Check that the password is matched
+      // Debug message
+      print(
+          "Name: ${name} Email: ${email} Password: ${password} Confirm: ${confirmPassword}");
+
+      // Sets an error messages on the text fields
+      setState(() {
+        nameErrorMsg = name.isEmpty ? "Name value is missing" : null;
+        emailErrorMsg = email.isEmpty ? "Email value is missing" : null;
+        passwordErrorMsg =
+            password.isEmpty ? "Password value is missing" : null;
+        confirmPasswordErrorMsg =
+            confirmPassword.isEmpty ? "Confirm password is missing" : null;
+      });
+
+      // Check for a valid email address
+      final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+      if (!emailRegex.hasMatch(email)) {
+        setState(() {
+          emailErrorMsg = emailErrorMsg ?? "Invalid email address";
+        });
+        return;
+      }
+
+      //TODO: Check if the email already exists
+
+      // Check for the same provided passwords
       if (password != confirmPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.white,
-            content: Text(
-              "The password don't match",
-              style: TextStyle(color: Colors.red),
-            ),
+        setState(() {
+          passwordErrorMsg =
+              passwordErrorMsg ?? "The password fields don't match";
+
+          confirmPasswordErrorMsg =
+              confirmPasswordErrorMsg ?? "The password fields don't match";
+        });
+        return;
+      }
+
+      // Move to the home page
+      if (!name.isEmpty &&
+          !email.isEmpty &&
+          !password.isEmpty &&
+          !confirmPassword.isEmpty) {
+        //TODO: make a POST request to the server and create a new instance of the user
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
           ),
         );
       }
@@ -37,6 +106,7 @@ class RegisterScreen extends StatelessWidget {
 
     return Scaffold(
       body: Container(
+        // The style of the page
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -47,43 +117,84 @@ class RegisterScreen extends StatelessWidget {
             ],
           ),
         ),
-        child: Container(
-          margin: EdgeInsets.all(10),
-          child: ListView(
-            children: [
-              Center(
-                child: Text(
-                  "Register",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Ariel",
+
+        // The content on the page
+        child: ListView(
+          children: [
+            Column(
+              children: [
+                // Header
+                SizedBox(
+                  height: screenHeight * 0.3,
+                  child: Center(
+                    child: Text(
+                      "Register",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontFamily: "Ariel",
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: screenHeight * 0.2),
-              RoundedTextField(
-                showMessage: "Enter your name:",
-                controller: nameController,
-              ),
-              RoundedTextField(
-                showMessage: "Enter your email:",
-                controller: emailController,
-              ),
-              RoundedTextField(
-                showMessage: "Enter your password:",
-                controller: passwordController,
-              ),
-              RoundedTextField(
-                showMessage: "Enter your password again:",
-                controller: confirmPasswordController,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: VerifySignupValues,
-                child: Text("Submit"),
-              ),
-            ],
-          ),
+
+                // The fields
+                SizedBox(
+                  height: screenHeight * 0.4,
+                  child: Column(
+                    children: [
+                      RoundedTextField(
+                        showMessage: "Enter your name:",
+                        controller: nameController,
+                        errorMessage: nameErrorMsg,
+                      ),
+                      RoundedTextField(
+                        showMessage: "Enter your email:",
+                        controller: emailController,
+                        errorMessage: emailErrorMsg,
+                      ),
+                      RoundedTextField(
+                        showMessage: "Enter your password:",
+                        controller: passwordController,
+                        errorMessage: passwordErrorMsg,
+                      ),
+                      RoundedTextField(
+                        showMessage: "Enter your password again:",
+                        controller: confirmPasswordController,
+                        errorMessage: confirmPasswordErrorMsg,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // The submit and login buttons
+                SizedBox(
+                  height: screenHeight * 0.1,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ElevatedButton(
+                        onPressed: VerifySignupValues,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF79DB4B),
+                          shadowColor: Colors.black.withOpacity(0.35),
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          "Sign Up",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );

@@ -41,14 +41,14 @@ class EntryScreen extends StatelessWidget {
                   children: [
                     FormButton(
                       message: "Sign Up",
-                      navigateFunc: () => Navigator.push(
+                      navigateFunc: () => Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (ctx) => RegisterScreen()),
                       ),
                     ),
                     FormButton(
                       message: "Login",
-                      navigateFunc: () => Navigator.push(
+                      navigateFunc: () => Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (ctx) => LoginScreen()),
                       ),
