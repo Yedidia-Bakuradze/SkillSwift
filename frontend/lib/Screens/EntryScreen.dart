@@ -11,7 +11,6 @@ class EntryScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.green,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
